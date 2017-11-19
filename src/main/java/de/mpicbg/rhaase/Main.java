@@ -1,6 +1,6 @@
 package de.mpicbg.rhaase;
 
-import de.mpicbg.rhaase.scijava.TranslateImagePlugin;
+import de.mpicbg.rhaase.scijava.MeasureFocusImagePlugin;
 import ij.ImagePlus;
 import net.imagej.ImageJ;
 import net.imglib2.Cursor;
@@ -35,14 +35,10 @@ public class Main
     Object[]
         imglibParameters =
         new Object[] { "currentData",
-                       img,
-                       "translateX",
-                       5,
-                       "translateY",
-                       15};
+                       img};
 
     ij.ui().show(img);
 
-    ij.command().run(TranslateImagePlugin.class, true, imglibParameters);
+    ij.command().run(MeasureFocusImagePlugin.class, true, imglibParameters);
   }
 }
