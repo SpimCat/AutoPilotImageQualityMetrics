@@ -13,8 +13,6 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
-import autopilot.image.writers.PngWriter;
-import autopilot.image.writers.TiffWriter;
 import autopilot.utils.ArrayMatrix;
 import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
 import edu.emory.mathcs.jtransforms.dht.DoubleDHT_2D;
@@ -595,37 +593,6 @@ public class DoubleArrayImage
 
 				oarray[ip] += marray[i];
 			}
-		}
-	}
-
-	public final void writePng(final File pFile) throws IOException
-	{
-		PngWriter.writePng(this, pFile);
-	}
-
-	public final boolean writeTiff(final File pTiffFile)
-	{
-		try
-		{
-			TiffWriter.write(this, pTiffFile);
-			return true;
-		}
-		catch (final Throwable e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
-
-	public final boolean writeTiff16bit(final File pTiffFile)
-	{
-		try
-		{
-			TiffWriter.write16bit(this, pTiffFile);
-			return true;
-		}
-		catch (final Throwable e)
-		{
-			throw new RuntimeException(e);
 		}
 	}
 
