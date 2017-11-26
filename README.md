@@ -1,5 +1,4 @@
 # AutoPilotImageQualityMetrics
-# ============================
 
 This java repository contains an ImageJ/Fiji plugin allowing to measure image quality metrics published in 
 
