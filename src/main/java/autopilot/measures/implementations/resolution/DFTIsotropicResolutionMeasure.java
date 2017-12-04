@@ -9,15 +9,10 @@ import static java.lang.Math.round;
 import java.io.File;
 import java.io.IOException;
 
-import loci.common.services.DependencyException;
-import loci.common.services.ServiceException;
-import loci.formats.FormatException;
-
 import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.stat.descriptive.rank.Median;
 
 import autopilot.image.DoubleArrayImage;
-import autopilot.image.writers.TiffWriter;
 import autopilot.measures.FocusMeasureInterface;
 import autopilot.measures.FocusMeasures;
 
@@ -166,35 +161,6 @@ public class DFTIsotropicResolutionMeasure implements
 		final double measureminmax = 1 - (max - min) / (max + min);
 
 		return relentropy;
-	}
-
-	private static void debugtiff(final DoubleArrayImage pDoubleArrayImage,
-																String lFileName)
-	{
-		try
-		{
-			TiffWriter.write(pDoubleArrayImage, new File(lFileName));
-		}
-		catch (final DependencyException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (final ServiceException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (final FormatException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (final IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

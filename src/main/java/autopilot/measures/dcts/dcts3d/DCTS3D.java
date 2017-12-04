@@ -1,6 +1,6 @@
 package autopilot.measures.dcts.dcts3d;
 
-import edu.emory.mathcs.jtransforms.dct.DoubleDCT_3D;
+import org.jtransforms.dct.DoubleDCT_3D;
 
 /**
  * Class providing methods for computing the DCTS3D volumetric focus measure

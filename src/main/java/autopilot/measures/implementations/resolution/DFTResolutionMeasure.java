@@ -8,14 +8,10 @@ import gnu.trove.list.array.TDoubleArrayList;
 import java.io.File;
 import java.io.IOException;
 
-import loci.common.services.DependencyException;
-import loci.common.services.ServiceException;
-import loci.formats.FormatException;
 
 import org.apache.commons.math3.stat.StatUtils;
 
 import autopilot.image.DoubleArrayImage;
-import autopilot.image.writers.TiffWriter;
 import autopilot.measures.FocusMeasureInterface;
 import autopilot.measures.FocusMeasures;
 
@@ -311,33 +307,5 @@ public class DFTResolutionMeasure implements FocusMeasureInterface
 
 	}
 
-	private static void debugtiff(	final DoubleArrayImage pDoubleArrayImage,
-									String lFileName)
-	{
-		try
-		{
-			TiffWriter.write(pDoubleArrayImage, new File(lFileName));
-		}
-		catch (final DependencyException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (final ServiceException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (final FormatException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (final IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 }

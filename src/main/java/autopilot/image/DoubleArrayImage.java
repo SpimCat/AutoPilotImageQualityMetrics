@@ -14,9 +14,10 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 import autopilot.utils.ArrayMatrix;
-import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
-import edu.emory.mathcs.jtransforms.dht.DoubleDHT_2D;
-import edu.emory.mathcs.jtransforms.fft.DoubleFFT_2D;
+
+import org.jtransforms.dct.DoubleDCT_2D;
+import org.jtransforms.dht.DoubleDHT_2D;
+import org.jtransforms.fft.DoubleFFT_2D;
 
 /**
  * Basic 2D image backed by a single double[] java array.
