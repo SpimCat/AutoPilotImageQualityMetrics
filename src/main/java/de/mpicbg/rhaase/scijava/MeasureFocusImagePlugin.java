@@ -20,7 +20,7 @@ import org.scijava.ui.UIService;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Plugin(type = Command.class, menuPath = "XWing>Internal>Image Focus Measurements slice by slice")
+@Plugin(type = Command.class, menuPath = "XWing>Quality measurement>Image Focus Measurements slice by slice (Adapted Autopilot code, Royer et Al. 2016)")
 public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
 {
   private static ArrayList<FocusMeasures.FocusMeasure>
@@ -31,7 +31,7 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
 
   @Parameter private UIService uiService;
 
-  private static boolean showPlots = false;
+  private static boolean showPlots = true;
 
   HashMap<FocusMeasures.FocusMeasure, double[]> resultMatrix = null;
 
@@ -39,10 +39,12 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
   public MeasureFocusImagePlugin() {
     if (formerChoice == null) {
       formerChoice = new ArrayList<FocusMeasures.FocusMeasure>();
-      for (FocusMeasures.FocusMeasure focusMeasure : FocusMeasures.getFocusMeasuresArray())
+      /*for (FocusMeasures.FocusMeasure focusMeasure : FocusMeasures.getFocusMeasuresArray())
       {
         formerChoice.add(focusMeasure);
-      }
+      }*/
+      formerChoice.add(FocusMeasures.FocusMeasure.SpectralNormDCTEntropyShannon);
+      formerChoice.add(FocusMeasures.FocusMeasure.StatisticVariance);
     }
   }
 
