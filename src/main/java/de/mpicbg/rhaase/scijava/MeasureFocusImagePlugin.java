@@ -2,15 +2,18 @@ package de.mpicbg.rhaase.scijava;
 
 import autopilot.image.DoubleArrayImage;
 import autopilot.measures.FocusMeasures;
+import de.mpicbg.rhaase.utils.DoubleArrayImageImgConverter;
 import ij.IJ;
 import ij.gui.GenericDialog;
 import ij.gui.Plot;
 import ij.measure.ResultsTable;
+import net.imagej.ops.OpService;
 import net.imglib2.Cursor;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.Img;
 import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.type.numeric.RealType;
+import net.imglib2.type.numeric.real.FloatType;
 import net.imglib2.view.Views;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
@@ -21,19 +24,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Plugin(type = Command.class, menuPath = "XWing>Quality measurement>Image Focus Measurements slice by slice (Adapted Autopilot code, Royer et Al. 2016)")
-public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
+public class MeasureFocusImagePlugin<T extends RealType<T>> extends AbstractFocusMeasuresPlugin implements Command
 {
-  private static ArrayList<FocusMeasures.FocusMeasure>
-      formerChoice = null;
-
-
   @Parameter private Img<T> currentData;
+
+  @Parameter private OpService ops;
 
   @Parameter private UIService uiService;
 
-  private static boolean showPlots = true;
 
   HashMap<FocusMeasures.FocusMeasure, double[]> resultMatrix = null;
+
 
 
   public MeasureFocusImagePlugin() {
@@ -48,31 +49,6 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
     }
   }
 
-  private boolean showDialog() {
-    GenericDialog genericDialog = new GenericDialog("Focus measurements");
-    genericDialog.addCheckbox("Plot results", showPlots);
-    genericDialog.addMessage(" ");
-    for (FocusMeasures.FocusMeasure focusMeasure : FocusMeasures.getFocusMeasuresArray()) {
-      genericDialog.addCheckbox(focusMeasure.getLongName(), formerChoice.contains(focusMeasure));
-    }
-
-    genericDialog.showDialog();
-    if (genericDialog.wasCanceled()) {
-      return false;
-    }
-    showPlots = genericDialog.getNextBoolean();
-
-    formerChoice.clear();
-
-    for (FocusMeasures.FocusMeasure focusMeasure : FocusMeasures.getFocusMeasuresArray()) {
-      if (genericDialog.getNextBoolean()){
-        formerChoice.add(focusMeasure);
-      }
-    }
-
-    return true;
-  }
-
 
   @Override public void run()
   {
@@ -80,7 +56,9 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
       return;
     }
 
-    int numDimensions = currentData.numDimensions();
+    Img<FloatType> floatData = ops.convert().float32(currentData);
+
+    int numDimensions = floatData.numDimensions();
 
     if (showPlots) {
       if (numDimensions == 3)
@@ -98,9 +76,9 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
     ResultsTable resultsTable = ResultsTable.getResultsTable();
     if (numDimensions == 2) {
       resultsTable.incrementCounter();
-      process2D(currentData, 0);
+      process2D(floatData, 0);
     } else if (numDimensions == 3) {
-      int numberOfSlices = (int) currentData.dimension(2);
+      int numberOfSlices = (int) floatData.dimension(2);
 
       if (resultMatrix != null)
       {
@@ -113,8 +91,8 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
       for (int z = 0; z < numberOfSlices; z++)
       {
         System.out.println("Slice " + z);
-        RandomAccessibleInterval<T>
-            slice = Views.hyperSlice(currentData, 2, z);
+        RandomAccessibleInterval<FloatType>
+            slice = Views.hyperSlice(floatData, 2, z);
 
         resultsTable.incrementCounter();
 
@@ -131,23 +109,11 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
   }
 
 
-  private void process2D(RandomAccessibleInterval<T> img, int slice) {
+  private void process2D(RandomAccessibleInterval<FloatType> img, int slice) {
     ResultsTable resultsTable = ResultsTable.getResultsTable();
     resultsTable.addValue("slice", slice);
 
-    int width = (int)img.dimension(0);
-    int height = (int)img.dimension(1);
-    double[] pixelValues = new double[width * height];
-
-    Cursor<T> cursor = Views.iterable(img).cursor();
-    int index = 0;
-
-    while (cursor.hasNext()) {
-      pixelValues[index] = cursor.next().getRealDouble();
-      index++;
-    }
-
-    DoubleArrayImage image = new DoubleArrayImage(width, height, pixelValues);
+    DoubleArrayImage image = new DoubleArrayImageImgConverter(Views.iterable(img)).getDoubleArrayImage();
 
 
     for (FocusMeasures.FocusMeasure focusMeasure : formerChoice) {
@@ -161,6 +127,7 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> implements Command
       }
     }
   }
+
 
   private void plotResultMatrix() {
 
