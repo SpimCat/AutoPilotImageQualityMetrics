@@ -1,11 +1,11 @@
 package autopilot.utils.math;
 
+import org.scijava.vecmath.Point2d;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
-
-import javax.vecmath.Point2d;
 
 public class TheilSenRobustExtremumFinder
 {
