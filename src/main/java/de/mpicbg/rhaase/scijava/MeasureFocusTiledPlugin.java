@@ -98,42 +98,14 @@ public class MeasureFocusTiledPlugin<T extends RealType<T>> extends AbstractFocu
 
   private void process2D(RandomAccessibleInterval<FloatType> img, int slice) {
 
-    int blockWidth = (int)img.dimension(0) / numberOfTilesX;
-    int blockHeight = (int)img.dimension(0) / numberOfTilesY;
+    //int blockWidth = (int)img.dimension(0) / numberOfTilesX;
+    //int blockHeight = (int)img.dimension(0) / numberOfTilesY;
 
     for (FocusMeasures.FocusMeasure focusMeasure : formerChoice) {
 
       Img<FloatType> resultImg = resultMaps.get(focusMeasure);
-      RandomAccess<FloatType> resultRA = resultImg.randomAccess();
-      long[] position;
 
-      System.out.println("Determining " + focusMeasure.getLongName());
-
-      DoubleArrayImage image = new DoubleArrayImageImgConverter(Views.iterable(img)).getDoubleArrayImage();
-
-      final ArrayMatrix<DoubleArrayImage> lTiles = image.extractTiles(numberOfTilesX, numberOfTilesY);
-
-      for (int x = 0; x < numberOfTilesX; x++)
-      {
-        for (int y = 0; y < numberOfTilesY; y++)
-        {
-          final DoubleArrayImage lTile = lTiles.get(x, y);
-          double
-              focusMeasureValue =
-              FocusMeasures.computeFocusMeasure(focusMeasure, lTile);
-
-          if (slice < 0)
-          { // 2D
-            position = new long[] { x, y };
-          }
-          else
-          { // 3D?
-            position = new long[] { x, y, slice };
-          }
-          resultRA.setPosition(position);
-          resultRA.get().setReal(focusMeasureValue);
-        }
-      }
+      mapFeatureToImg(img, slice, focusMeasure, resultImg);
       /*
       for (int blockX = 0; blockX + blockWidth < img.dimension(0); blockX += blockWidth ) {
         for (int blockY = 0; blockY + blockHeight < img.dimension(1); blockY += blockHeight ) {
@@ -157,6 +129,44 @@ public class MeasureFocusTiledPlugin<T extends RealType<T>> extends AbstractFocu
     }
   }
 
+  private void mapFeatureToImg(RandomAccessibleInterval<FloatType> img,
+                               int slice,
+                               FocusMeasures.FocusMeasure focusMeasure,
+                               Img<FloatType> resultImg)
+  {
+    RandomAccess<FloatType> resultRA = resultImg.randomAccess();
+    long[] position;
+
+    System.out.println("Determining " + focusMeasure.getLongName());
+
+    DoubleArrayImage
+        image = new DoubleArrayImageImgConverter(Views.iterable(img)).getDoubleArrayImage();
+
+    final ArrayMatrix<DoubleArrayImage>
+        lTiles = image.extractTiles(numberOfTilesX, numberOfTilesY);
+
+    for (int x = 0; x < numberOfTilesX; x++)
+    {
+      for (int y = 0; y < numberOfTilesY; y++)
+      {
+        final DoubleArrayImage lTile = lTiles.get(x, y);
+        double
+            focusMeasureValue =
+            FocusMeasures.computeFocusMeasure(focusMeasure, lTile);
+
+        if (slice < 0)
+        { // 2D
+          position = new long[] { x, y };
+        }
+        else
+        { // 3D?
+          position = new long[] { x, y, slice };
+        }
+        resultRA.setPosition(position);
+        resultRA.get().setReal(focusMeasureValue);
+      }
+    }
+  }
 
   public static void main(String... args) throws IOException
   {

@@ -22,7 +22,9 @@ public class AbstractFocusMeasuresPlugin
     genericDialog.addCheckbox("Plot results", showPlots);
     genericDialog.addMessage(" ");
     for (FocusMeasures.FocusMeasure focusMeasure : FocusMeasures.getFocusMeasuresArray()) {
-      genericDialog.addCheckbox(focusMeasure.getLongName(), formerChoice.contains(focusMeasure));
+      String featureName = focusMeasure.getLongName();
+      featureName = featureName.replace(" ", "_");
+      genericDialog.addCheckbox(featureName, formerChoice.contains(focusMeasure));
     }
 
     genericDialog.showDialog();

@@ -36,20 +36,6 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> extends AbstractFocu
   HashMap<FocusMeasures.FocusMeasure, double[]> resultMatrix = null;
 
 
-
-  public MeasureFocusImagePlugin() {
-    if (formerChoice == null) {
-      formerChoice = new ArrayList<FocusMeasures.FocusMeasure>();
-      /*for (FocusMeasures.FocusMeasure focusMeasure : FocusMeasures.getFocusMeasuresArray())
-      {
-        formerChoice.add(focusMeasure);
-      }*/
-      formerChoice.add(FocusMeasures.FocusMeasure.SpectralNormDCTEntropyShannon);
-      formerChoice.add(FocusMeasures.FocusMeasure.StatisticVariance);
-    }
-  }
-
-
   @Override public void run()
   {
     if (!showDialog()) {
