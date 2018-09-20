@@ -31,7 +31,7 @@ import java.util.HashMap;
  * December 2017
  */
 
-@Plugin(type = Command.class, menuPath = "XWing>Quality measurement>Image Focus Measurements tiles (Adapted Autopilot code, Royer et Al. 2016)")
+@Plugin(type = Command.class, menuPath = "SpimCat>Quality measurement>Image Focus Measurements tiles (Adapted Autopilot code, Royer et Al. 2016)")
 public class MeasureFocusTiledPlugin<T extends RealType<T>> extends AbstractFocusMeasuresPlugin implements
                                                             Command
 {

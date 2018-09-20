@@ -32,7 +32,7 @@ import java.util.DuplicateFormatFlagsException;
  * December 2017
  */
 
-@Plugin(type = Command.class, menuPath = "XWing>Quality measurement>Image Focus Measurements of a region slice by slice (Adapted Autopilot code, Royer et Al. 2016)")
+@Plugin(type = Command.class, menuPath = "SpimCat>Quality measurement>Image Focus Measurements of a region slice by slice (Adapted Autopilot code, Royer et Al. 2016)")
 public class MeasureFocusRegionPlugin<T extends RealType<T>> implements Command
 {
   @Parameter
