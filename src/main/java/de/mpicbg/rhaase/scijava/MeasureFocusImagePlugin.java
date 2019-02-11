@@ -51,7 +51,7 @@ public class MeasureFocusImagePlugin<T extends RealType<T>> extends AbstractFocu
       {
         resultMatrix = new HashMap<FocusMeasures.FocusMeasure, double[]>();
       } else {
-        resultMatrix = null;
+        resultMatrix = new HashMap<FocusMeasures.FocusMeasure, double[]>();
         IJ.log("Plotting is not possible for 2D images. Choose an image stack.");
       }
     }

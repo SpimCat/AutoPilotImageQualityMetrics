@@ -56,4 +56,8 @@ public class AbstractFocusMeasuresPlugin
       //formerChoice.add(FocusMeasures.FocusMeasure.StatisticVariance);
     }
   }
+
+  public void setShowPlots(boolean showPlots) {
+    this.showPlots = showPlots;
+  }
 }
