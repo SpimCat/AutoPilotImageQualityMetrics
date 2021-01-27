@@ -23,7 +23,7 @@ import org.scijava.ui.UIService;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Plugin(type = Command.class, menuPath = "SpimCat>Quality measurement>Image Focus Measurements slice by slice (Adapted Autopilot code, Royer et Al. 2016)")
+@Plugin(type = Command.class, menuPath = "Plugins>SpimCat>Quality measurement>Image Focus Measurements slice by slice (Adapted Autopilot code, Royer et Al. 2016)")
 public class MeasureFocusImagePlugin<T extends RealType<T>> extends AbstractFocusMeasuresPlugin implements Command
 {
   @Parameter private Img<T> currentData;
