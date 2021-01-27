@@ -8,13 +8,13 @@
 	<parent>
         <groupId>org.scijava</groupId>
         <artifactId>pom-scijava</artifactId>
-        <version>25.0.0</version>
+        <version>29.2.1</version>
 		<relativePath />
 	</parent>
 
 	<groupId>de.mpicbg.rhaase</groupId>
 	<artifactId>imagequalitymetrics-microscopeautopilot</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0</version>
 
 	<name>imagequalitymetrics-microscopeautopilot</name>
 	<description>imagequalitymetrics-microscopeautopilot</description>
